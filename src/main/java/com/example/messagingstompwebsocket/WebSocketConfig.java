@@ -17,6 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		config.enableSimpleBroker("/topic"); 
 //		/app으로 시작하는 목적지를 처리하는데 사용.
 		config.setApplicationDestinationPrefixes("/app");
+		
 	}
 
 	@Override
