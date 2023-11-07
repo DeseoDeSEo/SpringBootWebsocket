@@ -13,16 +13,18 @@ stompClient.onConnect = (frame) => { /*클라이언트가 웹 소켓 연결에 �
         이 객체의 'body' 속성에 메시지 본문 있음. json을 파싱하여 그 중 content 속성의 값을 추출함.*/
     });
 };
-
+/*웹소켓 오류 처리 코드: 오류가 발생했을 때, 해당 오류를 콘솔에 출력.*/
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
 };
-
+/*STOMP프레임의 오류를 처리하는 부분. */
 stompClient.onStompError = (frame) => {
     console.error('Broker reported error: ' + frame.headers['message']);
     console.error('Additional details: ' + frame.body);
 };
 
+/*prop(property, html요소의 속성값을 가져옴.)*/
+/*connected 매개 변수값에 따라 설정되는 함수.*/
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
@@ -33,8 +35,9 @@ function setConnected(connected) {
         $("#conversation").hide();
     }
     $("#greetings").html("");
-}
+}/*메세지 내용을 초기화 시킴.*/
 
+/*activate()메서드 호출*/
 function connect() {
     stompClient.activate();
 }
@@ -49,13 +52,13 @@ function sendName() {
     stompClient.publish({
         destination: "/app/hello",
         body: JSON.stringify({'name': $("#name").val()})
-    });
+    }); /*stringify: javaScript객체나 배열을 json문자열로 변환 가능*/
 }
 
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
-
+/*페이지의 모든 요소에 대해서 submit이벤트를 캡처하고 이벤트를 취소함. (= 이렇게 하면 페이지가 폼 제출시 새로 고침 되는것을 방지)*/
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
     $( "#connect" ).click(() => connect());
